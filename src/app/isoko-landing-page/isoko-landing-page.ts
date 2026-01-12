@@ -1,11 +1,10 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-isoko-landing-page',
   standalone: true,
-  imports: [CommonModule, LucideAngularModule],
+  imports: [CommonModule],
   templateUrl: './isoko-landing-page.html',
   styleUrls: ['./isoko-landing-page.css']
 })
@@ -27,12 +26,12 @@ export class IsokoLandingPageComponent {
 
   features = [
     {
-      icon: 'book-open',
+      icon: 'book',
       title: 'Quality Courses',
       description: 'Access hundreds of expertly crafted courses across various disciplines'
     },
     {
-      icon: 'users',
+      icon: 'people',
       title: 'Expert Instructors',
       description: 'Learn from experienced educators and industry professionals'
     },
@@ -42,7 +41,7 @@ export class IsokoLandingPageComponent {
       description: 'Earn recognized certificates upon course completion'
     },
     {
-      icon: 'trending-up',
+      icon: 'graph-up',
       title: 'Track Progress',
       description: 'Monitor your learning journey with detailed analytics'
     }

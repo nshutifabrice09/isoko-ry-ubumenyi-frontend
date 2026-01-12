@@ -7,7 +7,7 @@
         <div class="flex items-center">
           <div class="flex items-center space-x-2">
             <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
-              <i-lucide name="book-open" class="w-6 h-6 text-white"></i-lucide>
+              <i class="bi bi-book text-white" style="font-size: 1.5rem;"></i>
             </div>
             <span [ngClass]="scrolled ? 'text-gray-900' : 'text-white'" class="text-xl font-bold">
               Isoko ry'Ubumenyi
@@ -47,7 +47,7 @@
 
         <!-- Mobile Menu Button -->
         <button class="md:hidden" (click)="toggleMenu()">
-          <i-lucide [name]="isMenuOpen ? 'x' : 'menu'" class="w-6 h-6"></i-lucide>
+          <i [class]="'bi ' + (isMenuOpen ? 'bi-x' : 'bi-list')" style="font-size: 1.5rem;"></i>
         </button>
       </div>
     </div>
@@ -91,10 +91,10 @@
           <div class="flex flex-col sm:flex-row gap-4">
             <button class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
               Explore Courses
-              <i-lucide name="chevron-right" class="w-5 h-5 ml-2"></i-lucide>
+              <i class="bi bi-chevron-right ms-2"></i>
             </button>
             <button class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition flex items-center justify-center">
-              <i-lucide name="play" class="w-5 h-5 mr-2"></i-lucide>
+              <i class="bi bi-play me-2"></i>
               Watch Demo
             </button>
           </div>
@@ -110,7 +110,7 @@
             <div class="mt-6 space-y-4">
               <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
-                  <i-lucide name="book-open" class="w-6 h-6"></i-lucide>
+                  <i class="bi bi-book text-white" style="font-size: 1.5rem;"></i>
                 </div>
                 <div>
                   <p class="font-semibold">500+ Courses</p>
@@ -151,7 +151,7 @@
       <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div *ngFor="let feature of features" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition border border-gray-100">
           <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
-            <i-lucide [name]="feature.icon" class="w-8 h-8"></i-lucide>
+            <i [class]="'bi bi-' + feature.icon" style="font-size: 2rem;"></i>
           </div>
           <h3 class="text-xl font-semibold text-gray-900 mb-2">
             {{feature.title}}
@@ -207,7 +207,7 @@
         <div>
           <div class="flex items-center space-x-2 mb-4">
             <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-              <i-lucide name="book-open" class="w-6 h-6 text-white"></i-lucide>
+              <i class="bi bi-book text-white" style="font-size: 1.5rem;"></i>
             </div>
             <span class="text-xl font-bold text-white">Isoko ry'Ubumenyi</span>
           </div>
