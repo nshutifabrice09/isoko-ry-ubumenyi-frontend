@@ -1,9 +1,9 @@
-/* Navbar Transition */
+Navbar Transition
 .transition-navbar {
   transition: all 0.3s ease;
 }
 
-/* Logo Icon */
+Logo Icon 
 .logo-icon {
   width: 40px;
   height: 40px;
@@ -114,4 +114,4 @@
 
 .btn {
   transition: all 0.3s ease;
-}
+}  

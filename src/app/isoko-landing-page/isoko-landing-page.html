@@ -1,112 +1,251 @@
-<div class="min-vh-100">
+<div class="min-h-screen bg-white">
   <!-- Navigation -->
-  <nav class="navbar navbar-expand-lg fixed-top transition-navbar"
-       [ngClass]="scrolled ? 'navbar-light bg-white shadow-sm' : 'navbar-dark bg-transparent'">
-    <div class="container">
-      
-      <!-- Logo Section -->
-      <a class="navbar-brand d-flex align-items-center" href="#">
-        <div class="logo-icon rounded me-2">
-          <i-lucide name="book-open" class="text-white"></i-lucide>
+  <nav class="fixed w-full z-50 transition-all duration-300"
+       [ngClass]="scrolled ? 'bg-white shadow-md' : 'bg-transparent'">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <div class="flex items-center">
+          <div class="flex items-center space-x-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
+              <i-lucide name="book-open" class="w-6 h-6 text-white"></i-lucide>
+            </div>
+            <span [ngClass]="scrolled ? 'text-gray-900' : 'text-white'" class="text-xl font-bold">
+              Isoko ry'Ubumenyi
+            </span>
+          </div>
         </div>
-        <span class="fw-bold fs-5" 
-              [ngClass]="scrolled ? 'text-dark' : 'text-white'">
-          Isoko ry'Ubumenyi
-        </span>
-      </a>
 
-      <!-- Mobile Toggle Button -->
-      <button class="navbar-toggler" 
-              type="button" 
-              (click)="toggleMenu()"
-              [attr.aria-expanded]="isMenuOpen">
-        <i-lucide [name]="isMenuOpen ? 'x' : 'menu'"></i-lucide>
-      </button>
-
-      <!-- Desktop & Mobile Menu -->
-      <div class="collapse navbar-collapse" 
-           [ngClass]="{'show': isMenuOpen}">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="#courses">Courses</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#about">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#instructors">Instructors</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#contact">Contact</a>
-          </li>
-        </ul>
-        
-        <!-- Action Buttons -->
-        <div class="d-flex gap-2 ms-lg-3 mt-2 mt-lg-0">
-          <button class="btn btn-outline-primary">Sign In</button>
-          <button class="btn btn-primary">Get Started</button>
+        <!-- Desktop Menu -->
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="#courses" 
+             [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
+             class="transition">
+            Courses
+          </a>
+          <a href="#about" 
+             [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
+             class="transition">
+            About
+          </a>
+          <a href="#instructors" 
+             [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
+             class="transition">
+            Instructors
+          </a>
+          <a href="#contact" 
+             [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
+             class="transition">
+            Contact
+          </a>
+          <button class="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition">
+            Sign In
+          </button>
+          <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+            Get Started
+          </button>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button class="md:hidden" (click)="toggleMenu()">
+          <i-lucide [name]="isMenuOpen ? 'x' : 'menu'" class="w-6 h-6"></i-lucide>
+        </button>
       </div>
-      
+    </div>
+
+    <!-- Mobile Menu -->
+    <div *ngIf="isMenuOpen" class="md:hidden bg-white border-t">
+      <div class="px-4 py-3 space-y-3">
+        <a href="#courses" class="block text-gray-700 hover:text-blue-600">Courses</a>
+        <a href="#about" class="block text-gray-700 hover:text-blue-600">About</a>
+        <a href="#instructors" class="block text-gray-700 hover:text-blue-600">Instructors</a>
+        <a href="#contact" class="block text-gray-700 hover:text-blue-600">Contact</a>
+        <button class="w-full px-4 py-2 text-blue-600 border border-blue-600 rounded-lg">
+          Sign In
+        </button>
+        <button class="w-full px-4 py-2 bg-blue-600 text-white rounded-lg">
+          Get Started
+        </button>
+      </div>
     </div>
   </nav>
+
   <!-- Hero Section -->
-<section class="hero-section position-relative text-white overflow-hidden">
-  <!-- Decorative Background Blurs -->
-  <div class="position-absolute w-100 h-100 top-0 start-0 hero-blur-container">
-    <div class="blur-circle blur-circle-1"></div>
-    <div class="blur-circle blur-circle-2"></div>
-  </div>
-  
-  <div class="container position-relative" style="z-index: 10;">
-    <div class="row align-items-center py-5" style="min-height: 600px;">
-      
-      <!-- Left Column: Text Content -->
-      <div class="col-lg-6 mb-4 mb-lg-0">
-        <h1 class="display-3 fw-bold mb-4">
-          Your Gateway to
-          <span class="d-block gradient-text">
-            Endless Knowledge
-          </span>
-        </h1>
-        
-        <p class="lead mb-4 text-light">
-          Empower your learning journey with world-class courses, expert instructors, and a vibrant community of learners.
-        </p>
-        
-        <div class="d-flex flex-column flex-sm-row gap-3">
-          <button class="btn btn-light btn-lg text-primary fw-semibold d-flex align-items-center justify-content-center">
-            Explore Courses
-            <i-lucide name="chevron-right" class="ms-2"></i-lucide>
-          </button>
-          <button class="btn btn-outline-light btn-lg fw-semibold d-flex align-items-center justify-content-center">
-            <i-lucide name="play" class="me-2"></i-lucide>
-            Watch Demo
-          </button>
+  <section class="relative bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 text-white pt-24 pb-20 overflow-hidden">
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute top-20 left-10 w-72 h-72 bg-white rounded-full blur-3xl"></div>
+      <div class="absolute bottom-20 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6">
+          <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+            Your Gateway to
+            <span class="block bg-gradient-to-r from-yellow-300 to-orange-300 bg-clip-text text-transparent">
+              Endless Knowledge
+            </span>
+          </h1>
+          <p class="text-xl text-blue-100">
+            Empower your learning journey with world-class courses, expert instructors, and a vibrant community of learners.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <button class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
+              Explore Courses
+              <i-lucide name="chevron-right" class="w-5 h-5 ml-2"></i-lucide>
+            </button>
+            <button class="px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition flex items-center justify-center">
+              <i-lucide name="play" class="w-5 h-5 mr-2"></i-lucide>
+              Watch Demo
+            </button>
+          </div>
         </div>
-      </div>
-      
-      <!-- Right Column: Image (Desktop only) -->
-      <div class="col-lg-6 d-none d-lg-block">
-        <div class="hero-card">
-          <img 
-            src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" 
-            alt="Students learning"
-            class="img-fluid rounded mb-4"
-          />
-          <div class="d-flex align-items-center gap-3">
-            <div class="hero-icon-box">
-              <i-lucide name="book-open" class="text-white"></i-lucide>
-            </div>
-            <div>
-              <p class="fw-semibold mb-1">500+ Courses</p>
-              <p class="small text-light mb-0">Learn anything, anytime</p>
+        
+        <div class="relative hidden md:block">
+          <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+            <img 
+              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" 
+              alt="Students learning"
+              class="rounded-lg w-full h-64 object-cover"
+            />
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">
+                  <i-lucide name="book-open" class="w-6 h-6"></i-lucide>
+                </div>
+                <div>
+                  <p class="font-semibold">500+ Courses</p>
+                  <p class="text-sm text-blue-200">Learn anything, anytime</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-      
     </div>
-  </div>
-</section>
+  </section>
+
+  <!-- Stats Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div *ngFor="let stat of stats" class="text-center">
+          <div class="text-4xl font-bold text-blue-600 mb-2">{{stat.value}}</div>
+          <div class="text-gray-600">{{stat.label}}</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">
+          Why Choose Isoko ry'Ubumenyi?
+        </h2>
+        <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+          Experience a modern learning platform designed for success
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div *ngFor="let feature of features" class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition border border-gray-100">
+          <div class="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600 mb-4">
+            <i-lucide [name]="feature.icon" class="w-8 h-8"></i-lucide>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-2">
+            {{feature.title}}
+          </h3>
+          <p class="text-gray-600">
+            {{feature.description}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-4xl font-bold text-gray-900 mb-4">
+          Explore Course Categories
+        </h2>
+        <p class="text-xl text-gray-600">
+          Find the perfect course for your learning goals
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+        <button *ngFor="let category of categories"
+                class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center font-medium text-gray-700 hover:text-blue-600 hover:scale-105 transform">
+          {{category}}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-4xl font-bold mb-4">
+        Ready to Start Your Learning Journey?
+      </h2>
+      <p class="text-xl text-blue-100 mb-8">
+        Join thousands of students already learning on Isoko ry'Ubumenyi
+      </p>
+      <button class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition text-lg">
+        Create Free Account
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+              <i-lucide name="book-open" class="w-6 h-6 text-white"></i-lucide>
+            </div>
+            <span class="text-xl font-bold text-white">Isoko ry'Ubumenyi</span>
+          </div>
+          <p class="text-gray-400">
+            Empowering learners across Rwanda and beyond.
+          </p>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-semibold mb-4">Platform</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Courses</a></li>
+            <li><a href="#" class="hover:text-white transition">Instructors</a></li>
+            <li><a href="#" class="hover:text-white transition">Pricing</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-semibold mb-4">Company</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">About Us</a></li>
+            <li><a href="#" class="hover:text-white transition">Careers</a></li>
+            <li><a href="#" class="hover:text-white transition">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h3 class="text-white font-semibold mb-4">Legal</h3>
+          <ul class="space-y-2">
+            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+        <p>&copy; 2026 Isoko ry'Ubumenyi. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 </div>
