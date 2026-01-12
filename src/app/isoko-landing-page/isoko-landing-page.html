@@ -1,9 +1,53 @@
-<div class="min-h-screen bg-white">
-    <nav class="fixed w-full z-50 transition-all duration-300" [ngClass]="scrolled ? 'bg-white shadow-md' : 'bg-transparent'">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-
+<div class="min-vh-100">
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg fixed-top transition-navbar"
+       [ngClass]="scrolled ? 'navbar-light bg-white shadow-sm' : 'navbar-dark bg-transparent'">
+    <div class="container">
+      
+      <!-- Logo Section -->
+      <a class="navbar-brand d-flex align-items-center" href="#">
+        <div class="logo-icon rounded me-2">
+          <i-lucide name="book-open" class="text-white"></i-lucide>
         </div>
+        <span class="fw-bold fs-5" 
+              [ngClass]="scrolled ? 'text-dark' : 'text-white'">
+          Isoko ry'Ubumenyi
+        </span>
+      </a>
+
+      <!-- Mobile Toggle Button -->
+      <button class="navbar-toggler" 
+              type="button" 
+              (click)="toggleMenu()"
+              [attr.aria-expanded]="isMenuOpen">
+        <i-lucide [name]="isMenuOpen ? 'x' : 'menu'"></i-lucide>
+      </button>
+
+      <!-- Desktop & Mobile Menu -->
+      <div class="collapse navbar-collapse" 
+           [ngClass]="{'show': isMenuOpen}">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#courses">Courses</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#about">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#instructors">Instructors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#contact">Contact</a>
+          </li>
+        </ul>
+        
+        <!-- Action Buttons -->
+        <div class="d-flex gap-2 ms-lg-3 mt-2 mt-lg-0">
+          <button class="btn btn-outline-primary">Sign In</button>
+          <button class="btn btn-primary">Get Started</button>
+        </div>
+      </div>
+      
     </div>
   </nav>
 </div>

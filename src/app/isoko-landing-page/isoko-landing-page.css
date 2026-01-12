@@ -1,0 +1,40 @@
+/* Navbar Transition */
+.transition-navbar {
+  transition: all 0.3s ease;
+}
+
+/* Logo Icon */
+.logo-icon {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(to bottom right, #2563eb, #4338ca);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navbar on scroll */
+.navbar.bg-white {
+  background-color: white !important;
+}
+
+.navbar.bg-transparent {
+  background-color: transparent !important;
+}
+
+/* Adjust navbar text color based on scroll */
+.navbar-dark .nav-link {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.navbar-dark .nav-link:hover {
+  color: white !important;
+}
+
+.navbar-light .nav-link {
+  color: rgba(0, 0, 0, 0.7) !important;
+}
+
+.navbar-light .nav-link:hover {
+  color: #2563eb !important;
+}
