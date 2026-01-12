@@ -38,3 +38,80 @@
 .navbar-light .nav-link:hover {
   color: #2563eb !important;
 }
+
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(to bottom right, #2563eb, #4338ca, #7c3aed);
+  padding-top: 100px;
+  padding-bottom: 80px;
+  margin-top: 56px; /* Height of navbar */
+}
+
+/* Decorative Blur Circles */
+.hero-blur-container {
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.blur-circle {
+  position: absolute;
+  background: white;
+  border-radius: 50%;
+  filter: blur(100px);
+}
+
+.blur-circle-1 {
+  width: 288px;
+  height: 288px;
+  top: 80px;
+  left: 40px;
+}
+
+.blur-circle-2 {
+  width: 384px;
+  height: 384px;
+  bottom: 80px;
+  right: 40px;
+}
+
+/* Gradient Text */
+.gradient-text {
+  background: linear-gradient(to right, #fcd34d, #fb923c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Hero Card */
+.hero-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 32px;
+}
+
+.hero-icon-box {
+  width: 48px;
+  height: 48px;
+  background: #3b82f6;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Button hover effects */
+.btn-light:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.btn-outline-light:hover {
+  background: white;
+  color: #2563eb;
+}
+
+.btn {
+  transition: all 0.3s ease;
+}
