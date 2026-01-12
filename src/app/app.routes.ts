@@ -5,7 +5,7 @@ import { Login } from './auth/login/login';
 
 export const routes: Routes = [
     { path: '', component: IsokoLandingPageComponent},
-    { path: '', component: Register},
-    { path: '', component: Login},
+    { path: 'register', component: Register},
+    { path: 'login', component: Login},
     { path: '**', redirectTo: ''}
 ];

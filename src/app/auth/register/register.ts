@@ -14,7 +14,7 @@ export class Register {
     fullName: '',
     email: '',
     password: '',
-    confirmPasswrd: '',
+    confirmPassword: '',
     role: 'Student' 
   };
 
@@ -61,10 +61,10 @@ export class Register {
       isValid = false;
       }
     
-      if(!this.formData.confirmPasswrd) {
+      if(!this.formData.confirmPassword) {
         this.errors.confirmPassword = 'Comfirm password!';
         isValid = false;
-      }else if(this.formData.password !== this.formData.confirmPasswrd) {
+      }else if(this.formData.password !== this.formData.confirmPassword) {
         this.errors.confirmPassword = 'Passwords do not match';
         isValid = false;
       }
