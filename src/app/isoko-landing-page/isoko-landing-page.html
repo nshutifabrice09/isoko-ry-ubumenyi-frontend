@@ -100,13 +100,23 @@
           </div>
         </div>
         
-        <div class="relative hidden md:block">
-          <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
-            <img 
-              src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" 
-              alt="Students learning"
-              class="rounded-lg w-full h-64 object-cover"
-            />
+        <div class="relative">
+          <img 
+            [src]="heroImages[currentImageIndex]" 
+            alt="African students learning"
+            class="rounded-lg w-full h-64 object-cover transition-all duration-500"
+          />
+  
+          <!-- Navigation Dots -->
+            <div class="flex justify-center gap-2 mt-4">
+              <button 
+                *ngFor="let img of heroImages; let i = index"
+                (click)="currentImageIndex = i"
+                [class]="'w-2 h-2 rounded-full transition ' + (currentImageIndex === i ? 'bg-white' : 'bg-white/50')"
+              ></button>
+          </div>
+        </div>
+
             <div class="mt-6 space-y-4">
               <div class="flex items-center space-x-3">
                 <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center">

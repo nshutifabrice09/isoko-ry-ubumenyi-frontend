@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -9,7 +9,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './isoko-landing-page.html',
   styleUrls: ['./isoko-landing-page.css']
 })
-export class IsokoLandingPageComponent {
+export class IsokoLandingPageComponent implements OnInit{
   isMenuOpen = false;
   scrolled = false;
 
@@ -17,6 +17,22 @@ export class IsokoLandingPageComponent {
   onWindowScroll() {
     this.scrolled = window.scrollY > 50;
   }
+
+  heroImages = [
+    'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop', 
+    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop',  
+    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop',  
+    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=400&fit=crop',  
+    'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop'  
+  ];
+
+  currentImageIndex = 0;
+
+  ngOnInit() {
+    setInterval(() => {
+      this.currentImageIndex = (this.currentImageIndex + 1) % this.heroImages.length;
+    }, 5000);
+  };
 
   stats = [
     { value: '10,000+', label: 'Students' },
