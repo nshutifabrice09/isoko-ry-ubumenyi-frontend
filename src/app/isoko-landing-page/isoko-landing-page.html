@@ -17,30 +17,30 @@
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-8">
-          <a href="#courses" 
+          <a routerLink="/courses" 
              [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
              class="transition">
             Courses
           </a>
-          <a href="#about" 
+          <a routerLink="/about" 
              [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
              class="transition">
             About
           </a>
-          <a href="#instructors" 
+          <a routerLink="/instructors" 
              [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
              class="transition">
             Instructors
           </a>
-          <a href="#contact" 
+          <a routerLink="/contact" 
              [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
              class="transition">
             Contact
           </a>
-          <button routerLink = "/login" class="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition">
+          <button routerLink="/login" class="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium transition">
             Sign In
           </button>
-          <button routerLink ="/register" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
+          <button routerLink="/register" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-medium">
             Get Started
           </button>
         </div>
@@ -55,10 +55,10 @@
     <!-- Mobile Menu -->
     <div *ngIf="isMenuOpen" class="md:hidden bg-white border-t">
       <div class="px-4 py-3 space-y-3">
-        <a href="#courses" class="block text-gray-700 hover:text-blue-600">Courses</a>
-        <a href="#about" class="block text-gray-700 hover:text-blue-600">About</a>
-        <a href="#instructors" class="block text-gray-700 hover:text-blue-600">Instructors</a>
-        <a href="#contact" class="block text-gray-700 hover:text-blue-600">Contact</a>
+        <a routerLink="/courses" class="block text-gray-700 hover:text-blue-600">Courses</a>
+        <a routerLink="/about" class="block text-gray-700 hover:text-blue-600">About</a>
+        <a routerLink="/instructors" class="block text-gray-700 hover:text-blue-600">Instructors</a>
+        <a routerLink="/contact" class="block text-gray-700 hover:text-blue-600">Contact</a>
         <button routerLink="/login" class="w-full px-4 py-2 text-blue-600 border border-blue-600 rounded-lg">
           Sign In
         </button>
@@ -89,7 +89,7 @@
             Empower your learning journey with world-class courses, expert instructors, and a vibrant community of learners.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <button routerLink="/register" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
+            <button routerLink="/courses" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
               Explore Courses
               <i class="bi bi-chevron-right ms-2"></i>
             </button>
@@ -100,22 +100,37 @@
           </div>
         </div>
         
-        <div class="relative">
-          <img 
-            [src]="heroImages[currentImageIndex]" 
-            alt="African students learning"
-            class="rounded-lg w-full h-64 object-cover transition-all duration-500"
-          />
-  
-          <!-- Navigation Dots -->
+        <div class="relative hidden md:block">
+          <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+            <!-- Image Carousel -->
+            <div class="relative">
+              <img 
+                [src]="heroImages[currentImageIndex]" 
+                alt="African students learning"
+                class="rounded-lg w-full h-64 object-cover transition-all duration-500"
+              />
+              
+              <!-- Navigation Arrows -->
+              <button 
+                (click)="previousImage()"
+                class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm rounded-full p-2 transition">
+                <i class="bi bi-chevron-left text-white"></i>
+              </button>
+              <button 
+                (click)="nextImage()"
+                class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white/30 hover:bg-white/50 backdrop-blur-sm rounded-full p-2 transition">
+                <i class="bi bi-chevron-right text-white"></i>
+              </button>
+            </div>
+
+            <!-- Navigation Dots -->
             <div class="flex justify-center gap-2 mt-4">
               <button 
                 *ngFor="let img of heroImages; let i = index"
                 (click)="currentImageIndex = i"
-                [class]="'w-2 h-2 rounded-full transition ' + (currentImageIndex === i ? 'bg-white' : 'bg-white/50')"
-              ></button>
-          </div>
-        </div>
+                [class]="'w-2 h-2 rounded-full transition ' + (currentImageIndex === i ? 'bg-white' : 'bg-white/50')">
+              </button>
+            </div>
 
             <div class="mt-6 space-y-4">
               <div class="flex items-center space-x-3">
@@ -188,6 +203,7 @@
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <button *ngFor="let category of categories"
+                routerLink="/courses"
                 class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center font-medium text-gray-700 hover:text-blue-600 hover:scale-105 transform">
           {{category}}
         </button>
@@ -204,7 +220,7 @@
       <p class="text-xl text-blue-100 mb-8">
         Join thousands of students already learning on Isoko ry'Ubumenyi
       </p>
-      <button routerLink = "/register" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition text-lg">
+      <button routerLink="/register" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition text-lg">
         Create Free Account
       </button>
     </div>
@@ -247,8 +263,8 @@
         <div>
           <h3 class="text-white font-semibold mb-4">Legal</h3>
           <ul class="space-y-2">
-            <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
-            <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+            <li><a routerLink="/" class="hover:text-white transition">Privacy Policy</a></li>
+            <li><a routerLink="/" class="hover:text-white transition">Terms of Service</a></li>
           </ul>
         </div>
       </div>
