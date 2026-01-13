@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './contact.html',
   styleUrl: './contact.css',
 })
-export class Contact {
+export class Contact{
   formData = {
     name: '',
     email: '',
