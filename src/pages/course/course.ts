@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-courses',
+  selector: 'app-course',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './courses.html',
-  styleUrl: './courses.css',
+  imports: [ CommonModule, RouterLink],
+  templateUrl: './course.html',
+  styleUrl: './course.css',
 })
-export class Courses {
+export class Course {
   selectedGrade = 'Primary 6';
 
   courses = [

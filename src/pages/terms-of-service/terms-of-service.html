@@ -1,1 +1,167 @@
-<p>terms-of-service works!</p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a routerLink="/" class="flex items-center space-x-2">
+          <div class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center">
+            <i class="bi bi-book text-white" style="font-size: 1.5rem;"></i>
+          </div>
+          <span class="text-xl font-bold text-gray-900">Isoko ry'Ubumenyi</span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-6">
+          <a routerLink="/" class="text-gray-700 hover:text-blue-600 transition">Home</a>
+          <button routerLink="/login" class="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium">Sign In</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div class="bg-white rounded-xl shadow-lg p-8 md:p-12">
+      <h1 class="text-4xl font-bold text-gray-900 mb-4">Terms of Service</h1>
+      <p class="text-gray-600 mb-8">Last updated: {{lastUpdated}}</p>
+
+      <div class="prose prose-lg max-w-none">
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">1. Agreement to Terms</h2>
+          <p class="text-gray-600 mb-4">
+            By accessing and using Isoko ry'Ubumenyi, you accept and agree to be bound by the terms and provision of 
+            this agreement. If you do not agree to these terms, you should not use this platform.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">2. Use License</h2>
+          <p class="text-gray-600 mb-4">
+            Permission is granted to temporarily access the materials on Isoko ry'Ubumenyi for personal, 
+            non-commercial educational use only. This is the grant of a license, not a transfer of title, and under this license you may not:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2 mb-4">
+            <li>Modify or copy the materials</li>
+            <li>Use the materials for any commercial purpose</li>
+            <li>Attempt to reverse engineer any software contained on the platform</li>
+            <li>Remove any copyright or other proprietary notations</li>
+            <li>Transfer the materials to another person</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">3. User Accounts</h2>
+          <p class="text-gray-600 mb-4">
+            When you create an account with us, you must provide accurate, complete, and current information. 
+            You are responsible for:
+          </p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2 mb-4">
+            <li>Maintaining the confidentiality of your account and password</li>
+            <li>Restricting access to your account</li>
+            <li>All activities that occur under your account</li>
+            <li>Notifying us immediately of any unauthorized use</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">4. Student Conduct</h2>
+          <p class="text-gray-600 mb-4">As a student on our platform, you agree to:</p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2 mb-4">
+            <li>Use the platform solely for educational purposes</li>
+            <li>Respect intellectual property rights of course materials</li>
+            <li>Not share your account credentials with others</li>
+            <li>Not engage in cheating or academic dishonesty</li>
+            <li>Treat instructors and fellow students with respect</li>
+            <li>Not disrupt the learning environment</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">5. Instructor Responsibilities</h2>
+          <p class="text-gray-600 mb-4">If you are an instructor, you additionally agree to:</p>
+          <ul class="list-disc list-inside text-gray-600 space-y-2 mb-4">
+            <li>Provide high-quality, accurate educational content</li>
+            <li>Align content with REB curriculum standards</li>
+            <li>Respond to student inquiries in a timely manner</li>
+            <li>Maintain professional conduct at all times</li>
+            <li>Not share or distribute student information</li>
+          </ul>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">6. Payment and Refunds</h2>
+          <p class="text-gray-600 mb-4">
+            Some courses may require payment. All payments are processed securely through our payment partners. 
+            Refund policies vary by course and will be clearly stated before purchase.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">7. Intellectual Property</h2>
+          <p class="text-gray-600 mb-4">
+            All course materials, including but not limited to videos, documents, quizzes, and assignments, 
+            are protected by copyright and other intellectual property laws. You may not reproduce, distribute, 
+            or create derivative works without explicit permission.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">8. Certificates</h2>
+          <p class="text-gray-600 mb-4">
+            Certificates of completion are issued upon successful completion of courses. These certificates 
+            are for educational purposes and do not constitute formal academic credentials unless explicitly stated.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">9. Termination</h2>
+          <p class="text-gray-600 mb-4">
+            We reserve the right to terminate or suspend your account immediately, without prior notice or liability, 
+            for any reason, including if you breach these Terms of Service.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">10. Limitation of Liability</h2>
+          <p class="text-gray-600 mb-4">
+            Isoko ry'Ubumenyi shall not be liable for any indirect, incidental, special, consequential, or punitive 
+            damages resulting from your use or inability to use the service.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">11. Governing Law</h2>
+          <p class="text-gray-600 mb-4">
+            These Terms shall be governed by and construed in accordance with the laws of Rwanda, without regard to 
+            its conflict of law provisions.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">12. Changes to Terms</h2>
+          <p class="text-gray-600 mb-4">
+            We reserve the right to modify these terms at any time. We will notify users of any material changes 
+            via email or through a notice on our platform.
+          </p>
+        </section>
+
+        <section class="mb-8">
+          <h2 class="text-2xl font-semibold text-gray-900 mb-4">13. Contact Information</h2>
+          <p class="text-gray-600 mb-4">
+            For questions about these Terms of Service, please contact us:
+          </p>
+          <div class="bg-blue-50 rounded-lg p-4">
+            <p class="text-gray-800"><strong>Email:</strong> legal@isokoryubumenyi.rw</p>
+            <p class="text-gray-800"><strong>Phone:</strong> +250 788 123 456</p>
+            <p class="text-gray-800"><strong>Address:</strong> KG 123 St, Kigali, Rwanda</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-gray-200">
+        <button routerLink="/" class="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition">
+          Back to Home
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

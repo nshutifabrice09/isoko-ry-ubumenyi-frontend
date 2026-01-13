@@ -1,1 +1,207 @@
-<p>pricing works!</p>
+<div class="min-h-screen bg-gray-50">
+  <!-- Navigation -->
+  <nav class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-16">
+        <a routerLink="/" class="flex items-center space-x-2">
+          <div
+            class="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-lg flex items-center justify-center"
+          >
+            <i class="bi bi-book text-white" style="font-size: 1.5rem"></i>
+          </div>
+          <span class="text-xl font-bold text-gray-900">
+            Isoko ry'Ubumenyi
+          </span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-6">
+          <a
+            routerLink="/courses"
+            class="text-gray-700 hover:text-blue-600 transition"
+            >Courses</a
+          >
+          <a
+            routerLink="/about"
+            class="text-gray-700 hover:text-blue-600 transition"
+            >About</a
+          >
+          <a routerLink="/pricing" class="text-blue-600 font-medium"
+            >Pricing</a
+          >
+          <button
+            routerLink="/login"
+            class="px-4 py-2 text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Sign In
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section
+    class="bg-gradient-to-br from-blue-600 via-indigo-700 to-purple-800 text-white py-16"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        Simple, Transparent Pricing
+      </h1>
+      <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+        Choose the perfect plan for your learning journey. All plans include
+        access to our quality content.
+      </p>
+
+      <!-- Billing Toggle -->
+      <div
+        class="inline-flex items-center bg-white/10 backdrop-blur-lg rounded-full p-1"
+      >
+        <button
+          (click)="billingCycle = 'monthly'"
+          [class]="
+            'px-6 py-2 rounded-full font-medium transition ' +
+            (billingCycle === 'monthly'
+              ? 'bg-white text-blue-600'
+              : 'text-white')
+          "
+        >
+          Monthly
+        </button>
+
+        <button
+          (click)="billingCycle = 'annual'"
+          [class]="
+            'px-6 py-2 rounded-full font-medium transition ' +
+            (billingCycle === 'annual'
+              ? 'bg-white text-blue-600'
+              : 'text-white')
+          "
+        >
+          Annual
+          <span
+            class="ml-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full"
+            >Save 17%</span
+          >
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section class="py-16 -mt-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let plan of plans"
+          [class]="
+            'bg-white rounded-2xl shadow-xl overflow-hidden transition transform hover:-translate-y-2 ' +
+            (plan.popular ? 'ring-4 ring-blue-600 scale-105' : '')
+          "
+        >
+          <!-- Popular Badge -->
+          <div
+            *ngIf="plan.popular"
+            class="bg-blue-600 text-white text-center py-2 text-sm font-semibold"
+          >
+            MOST POPULAR
+          </div>
+
+          <div class="p-8">
+            <h3 class="text-2xl font-bold text-gray-900 mb-2">
+              {{ plan.name }}
+            </h3>
+            <p class="text-gray-600 mb-6">{{ plan.description }}</p>
+
+            <!-- Price -->
+            <div class="mb-6">
+              <div class="flex items-baseline">
+                <span class="text-4xl font-bold text-gray-900">
+                  {{ getPrice(plan) | number }}
+                </span>
+                <span class="text-gray-600 ml-2">RWF</span>
+                <span class="text-gray-500 ml-2">
+                  /{{ billingCycle === 'monthly' ? 'month' : 'year' }}
+                </span>
+              </div>
+
+              <p
+                *ngIf="billingCycle === 'annual' && getSavings(plan) > 0"
+                class="text-green-600 text-sm mt-2"
+              >
+                Save {{ getSavings(plan) | number }} RWF per year
+              </p>
+            </div>
+
+            <!-- Features -->
+            <ul class="space-y-4 mb-8">
+              <li
+                *ngFor="let feature of plan.features"
+                class="flex items-start"
+              >
+                <i
+                  [class]="
+                    'bi ' +
+                    (feature.included
+                      ? 'bi-check-circle-fill text-green-500'
+                      : 'bi-x-circle text-gray-300') +
+                    ' mr-3 mt-1'
+                  "
+                ></i>
+                <span
+                  [class]="
+                    feature.included
+                      ? 'text-gray-700'
+                      : 'text-gray-400'
+                  "
+                >
+                  {{ feature.text }}
+                </span>
+              </li>
+            </ul>
+
+            <!-- CTA -->
+            <button
+              routerLink="/register"
+              [class]="
+                'w-full py-3 px-6 rounded-lg font-semibold transition ' +
+                (plan.popular
+                  ? 'bg-blue-600 text-white hover:bg-blue-700'
+                  : 'bg-gray-100 text-gray-900 hover:bg-gray-200')
+              "
+            >
+              {{ plan.name === 'Free' ? 'Start Free' : 'Get Started' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQs -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold text-gray-900">
+          Frequently Asked Questions
+        </h2>
+      </div>
+
+      <div class="space-y-4">
+        <div
+          *ngFor="let faq of faqs"
+          class="bg-white rounded-xl shadow-md p-6"
+        >
+          <h3
+            class="text-lg font-semibold text-gray-900 mb-2 flex items-start"
+          >
+            <i
+              class="bi bi-question-circle text-blue-600 mr-3 mt-1"
+            ></i>
+            {{ faq.question }}
+          </h3>
+          <p class="text-gray-600 ml-8">{{ faq.answer }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
