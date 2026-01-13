@@ -17,7 +17,7 @@
 
         <!-- Desktop Menu -->
         <div class="hidden md:flex items-center space-x-8">
-          <a routerLink="/courses" 
+          <a routerLink="/course" 
              [ngClass]="scrolled ? 'text-gray-700 hover:text-blue-600' : 'text-white hover:text-blue-200'" 
              class="transition">
             Courses
@@ -55,7 +55,7 @@
     <!-- Mobile Menu -->
     <div *ngIf="isMenuOpen" class="md:hidden bg-white border-t">
       <div class="px-4 py-3 space-y-3">
-        <a routerLink="/courses" class="block text-gray-700 hover:text-blue-600">Courses</a>
+        <a routerLink="/course" class="block text-gray-700 hover:text-blue-600">Course</a>
         <a routerLink="/about" class="block text-gray-700 hover:text-blue-600">About</a>
         <a routerLink="/instructors" class="block text-gray-700 hover:text-blue-600">Instructors</a>
         <a routerLink="/contact" class="block text-gray-700 hover:text-blue-600">Contact</a>
@@ -89,7 +89,7 @@
             Empower your learning journey with world-class courses, expert instructors, and a vibrant community of learners.
           </p>
           <div class="flex flex-col sm:flex-row gap-4">
-            <button routerLink="/courses" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
+            <button routerLink="/course" class="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold hover:bg-blue-50 transition flex items-center justify-center">
               Explore Courses
               <i class="bi bi-chevron-right ms-2"></i>
             </button>
@@ -203,7 +203,7 @@
 
       <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         <button *ngFor="let category of categories"
-                routerLink="/courses"
+                routerLink="/course"
                 class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition text-center font-medium text-gray-700 hover:text-blue-600 hover:scale-105 transform">
           {{category}}
         </button>
@@ -245,7 +245,7 @@
         <div>
           <h3 class="text-white font-semibold mb-4">Platform</h3>
           <ul class="space-y-2">
-            <li><a routerLink="/courses" class="hover:text-white transition">Courses</a></li>
+            <li><a routerLink="/course" class="hover:text-white transition">Course</a></li>
             <li><a routerLink="/instructors" class="hover:text-white transition">Instructors</a></li>
             <li><a routerLink="/pricing" class="hover:text-white transition">Pricing</a></li>
           </ul>
