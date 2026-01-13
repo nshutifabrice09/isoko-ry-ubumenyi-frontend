@@ -6,6 +6,10 @@ import { Courses } from '../pages/courses/courses';
 import { About } from '../pages/about/about';
 import { Instructors } from '../pages/instructors/instructors';
 import { Contact } from '../pages/contact/contact';
+import { PrivacyPolicy } from '../pages/privacy-policy/privacy-policy';
+import { TermsOfService } from '../pages/terms-of-service/terms-of-service';
+import { Pricing } from '../pages/pricing/pricing';
+
 
 export const routes: Routes = [
     { path: '', component: IsokoLandingPageComponent},
@@ -15,5 +19,8 @@ export const routes: Routes = [
     { path: 'about', component: About},
     { path: 'instructors', component: Instructors},
     { path: 'contact', component: Contact},
+    { path: 'privacy-policy', component: PrivacyPolicy},
+    { path: 'terms-of-service', component: TermsOfService},
+    { path: 'pricing', component: Pricing},
     { path: '**', redirectTo: ''}
 ];
