@@ -49,7 +49,7 @@ export class IsokoLandingPageComponent {
   ];
 
   categories = [
-    'Technology', 'Business', 'Science', 'Mathematics', 'Languages', 'Arts'
+    'Mathematics', 'Science', 'Kinyarwanda', 'English', 'Social Studies', 'Sports'
   ];
 
   toggleMenu() {

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IsokoLandingPage } from './isoko-landing-page';
+import { IsokoLandingPageComponent } from './isoko-landing-page';
 
 describe('IsokoLandingPage', () => {
-  let component: IsokoLandingPage;
-  let fixture: ComponentFixture<IsokoLandingPage>;
+  let component: IsokoLandingPageComponent;
+  let fixture: ComponentFixture<IsokoLandingPageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IsokoLandingPage]
+      imports: [IsokoLandingPageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(IsokoLandingPage);
+    fixture = TestBed.createComponent(IsokoLandingPageComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
