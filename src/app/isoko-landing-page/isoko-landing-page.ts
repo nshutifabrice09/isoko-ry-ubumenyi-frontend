@@ -60,7 +60,7 @@ export class IsokoLandingPageComponent implements OnInit {
   ];
 
   categories = [
-    'Technology', 'Business', 'Science', 'Mathematics', 'Languages', 'Arts'
+    'Mathematics', 'Science', 'Kinyarwanda', 'English', 'Social Studies', 'Sports & PE'
   ];
 
   ngOnInit() {
