@@ -6,14 +6,19 @@ import { Observable, BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Your Spring Boot backend URL
+  private apiUrl = 'http://localhost:8080/api/auth'; // Spring Boot backend
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  
+
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(
-      JSON.parse(localStorage.getItem('currentUser') || 'null')
-    );
+    // Safe initialization for server-side / Node
+    let storedUser = null;
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('currentUser');
+      storedUser = saved ? JSON.parse(saved) : null;
+    }
+
+    this.currentUserSubject = new BehaviorSubject<any>(storedUser);
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -28,11 +33,11 @@ export class Auth {
 
   // Login
   login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, { email, password })
+    return this.http
+      .post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
-        tap(response => {
-          // Store user details and jwt token in local storage
-          if (response && response.token) {
+        tap((response) => {
+          if (response && response.token && typeof window !== 'undefined') {
             localStorage.setItem('currentUser', JSON.stringify(response));
             this.currentUserSubject.next(response);
           }
@@ -41,8 +46,10 @@ export class Auth {
   }
 
   // Logout
-  logout() {
-    localStorage.removeItem('currentUser');
+  logout(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('currentUser');
+    }
     this.currentUserSubject.next(null);
   }
 
@@ -59,18 +66,24 @@ export class Auth {
 
   // OAuth Login - Google
   loginWithGoogle(): void {
-    window.location.href = `${this.apiUrl}/oauth2/authorize/google`;
+    if (typeof window !== 'undefined') {
+      window.location.href = `${this.apiUrl}/oauth2/authorize/google`;
+    }
   }
 
   // OAuth Login - Facebook
   loginWithFacebook(): void {
-    window.location.href = `${this.apiUrl}/oauth2/authorize/facebook`;
+    if (typeof window !== 'undefined') {
+      window.location.href = `${this.apiUrl}/oauth2/authorize/facebook`;
+    }
   }
 
   // Handle OAuth callback
   handleOAuthCallback(token: string, user: any): void {
     const userData = { token, ...user };
-    localStorage.setItem('currentUser', JSON.stringify(userData));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('currentUser', JSON.stringify(userData));
+    }
     this.currentUserSubject.next(userData);
   }
 }

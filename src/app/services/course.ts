@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class Course {
-  private apiUrl = 'http://localhost:8080/api/courses';
+  private apiUrl = 'http://localhost:8080/api/courses'; //my spring Boot backend URL
 
   constructor(private http: HttpClient) {}
 
