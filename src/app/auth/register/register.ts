@@ -1,28 +1,38 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
   imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-export class Register {
-  formData= {
+export class RegisterComponent {
+  constructor(
+    private auth: Auth,
+    private router: Router
+  ) {}
+
+  isLoading = false;
+
+  formData = {
     fullName: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'Student' 
+    role: 'Student'
   };
 
   errors = {
-     fullName: '',
+    fullName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    general: ''
   };
 
   showPassword = false;
@@ -32,59 +42,93 @@ export class Register {
     let isValid = true;
 
     this.errors = {
-       fullName: '',
+      fullName: '',
       email: '',
       password: '',
-      confirmPassword: ''
+      confirmPassword: '',
+      general: ''
     };
 
-    if(!this.formData.fullName.trim()) {
+    if (!this.formData.fullName.trim()) {
       this.errors.fullName = 'Full name is required!';
       isValid = false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!this.formData.email.trim()) {
-      this.errors.email = 'Email is requiered!';
+    if (!this.formData.email.trim()) {
+      this.errors.email = 'Email is required!';
       isValid = false;
-    }
-    else if(!emailRegex.test(this.formData.email)) {
+    } else if (!emailRegex.test(this.formData.email)) {
       this.errors.email = 'Please enter a valid email';
       isValid = false;
-    };
+    }
 
-    if(!this.formData.password) {
+    if (!this.formData.password) {
       this.errors.password = 'Password is required!';
       isValid = false;
-    }else if(this.formData.password.length <6) {
+    } else if (this.formData.password.length < 6) {
       this.errors.password = 'Password must be at least 6 characters!';
       isValid = false;
-      }
-    
-      if(!this.formData.confirmPassword) {
-        this.errors.confirmPassword = 'Comfirm password!';
-        isValid = false;
-      }else if(this.formData.password !== this.formData.confirmPassword) {
-        this.errors.confirmPassword = 'Passwords do not match';
-        isValid = false;
-      }
+    }
 
-      return isValid;
+    if (!this.formData.confirmPassword) {
+      this.errors.confirmPassword = 'Confirm password!';
+      isValid = false;
+    } else if (this.formData.password !== this.formData.confirmPassword) {
+      this.errors.confirmPassword = 'Passwords do not match';
+      isValid = false;
+    }
+
+    return isValid;
   }
-onSubmit() {
-  if(this.validateForm()) {
-    console.log('Form submitted:', this.formData);
-    //ToDo: Send data to my backend API
-    alert("Registration successful!")
+
+  onSubmit(): void {
+    if (!this.validateForm()) return;
+
+    this.isLoading = true;
+
+    const userData = {
+      name: this.formData.fullName,
+      email: this.formData.email,
+      password: this.formData.password,
+      role: this.formData.role.toUpperCase()
+    };
+
+    this.auth.register(userData).subscribe({
+      next: () => {
+        alert('Registration successful! Please login.');
+        this.router.navigate(['/login']);
+      },
+      error: (error) => {
+        this.isLoading = false;
+
+        if (error?.status === 409) {
+          this.errors.general = 'This email is already registered.';
+        } else if (error?.error?.message) {
+          this.errors.general = error.error.message;
+        } else {
+          this.errors.general = 'Registration failed. Please try again later.';
+        }
+      },
+      complete: () => {
+        this.isLoading = false;
+      }
+    });
   }
-}
 
-togglePasswordVisibility() {
-  this.showPassword = !this.showPassword;
-}
+  loginWithGoogle(): void {
+    this.auth.loginWithGoogle();
+  }
 
-toggleConfirmPasswordVisibility() {
-  this.showConfirmPassword = !this.showConfirmPassword;
-}
+  loginWithFacebook(): void {
+    this.auth.loginWithFacebook();
+  }
 
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPasswordVisibility(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 }
