@@ -11,7 +11,7 @@ import { Auth } from '../../services/auth';
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
-export class RegisterComponent {
+export class Register {
   constructor(
     private auth: Auth,
     private router: Router
