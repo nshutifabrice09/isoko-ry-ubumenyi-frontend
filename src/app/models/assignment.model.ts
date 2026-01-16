@@ -1,7 +1,8 @@
+import { UUID } from 'crypto';
 import { Course } from './course.model';
 
 export interface Assignment {
-  id: string; // UUID
+  id: UUID
   title: string;
   description: string;
   dueDate: string; // ISO 8601 date string

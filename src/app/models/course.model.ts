@@ -1,8 +1,9 @@
 import { User } from './user.model';
 import { Lesson } from './lesson.model';
+import { UUID } from 'crypto';
 
 export interface Course {
-  id: string; // UUID
+  id: UUID;
   title: string;
   description: string;
   instructor: User;

@@ -1,5 +1,7 @@
+import { UUID } from "crypto";
+
 export interface Lesson {
-  id: string; // UUID
+  id: UUID
   title: string;
   content: string;
   fileUrl: string;
