@@ -1,8 +1,9 @@
+import { UUID } from 'crypto';
 import { Course } from './course.model';
 import { Question } from './question.model';
 
 export interface Quiz {
-  id: string; // UUID
+  id: UUID;
   title: string;
   course: Course;
   questions: Question[];
