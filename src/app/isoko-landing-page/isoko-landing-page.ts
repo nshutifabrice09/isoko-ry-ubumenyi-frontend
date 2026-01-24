@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -9,16 +9,18 @@ import { RouterLink } from '@angular/router';
   templateUrl: './isoko-landing-page.html',
   styleUrls: ['./isoko-landing-page.css']
 })
-export class IsokoLandingPageComponent implements OnInit {
+export class IsokoLandingPageComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
   scrolled = false;
+  currentImageIndex = 0;
+  private imageRotationInterval: any; // ✅ Store interval ID
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.scrolled = window.scrollY > 50;
   }
 
-  // Hero images - African students (search terms used for diverse representation)
+  // Hero images - African students
   heroImages = [
     'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop', // African children in classroom
     'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop', // African students studying together
@@ -26,8 +28,6 @@ export class IsokoLandingPageComponent implements OnInit {
     'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=400&fit=crop', // Students collaborating
     'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop'  // Students outdoor learning
   ];
-  
-  currentImageIndex = 0;
 
   stats = [
     { value: '10,000+', label: 'Students' },
@@ -64,10 +64,17 @@ export class IsokoLandingPageComponent implements OnInit {
   ];
 
   ngOnInit() {
-    // Auto-rotate images every 5 seconds
-    setInterval(() => {
+    // Auto-rotate images every 5 seconds - SAVE the interval ID
+    this.imageRotationInterval = setInterval(() => {
       this.nextImage();
     }, 5000);
+  }
+
+  ngOnDestroy() {
+    // ✅ CRITICAL: Clear the interval when component is destroyed
+    if (this.imageRotationInterval) {
+      clearInterval(this.imageRotationInterval);
+    }
   }
 
   toggleMenu() {
