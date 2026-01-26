@@ -1,45 +1,64 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../enviroments/environment';
+import { Course, CourseCreateDto, CourseUpdateDto, CourseListDto } from '../models/course.model';
+import { ApiConfig } from '../config/api.config';
 
 @Injectable({
-  providedIn: 'root'})
-export class Course {
-  private apiUrl = '${environment.apiUrl}/course/list';
-
+  providedIn: 'root'
+})
+export class CourseService {
   constructor(private http: HttpClient) {}
 
-  getAllCourses(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  // Get all courses
+  getAllCourses(): Observable<CourseListDto[]> {
+    return this.http.get<CourseListDto[]>(ApiConfig.ENDPOINTS.COURSES.BASE);
   }
 
-  getCourseById(courseId: number): Observable<any> {
-    return this.http.get(`${this.apiUrl}/${courseId}`);
+  // Get course by ID with lessons
+  getCourseById(id: string): Observable<Course> {
+    return this.http.get<Course>(ApiConfig.ENDPOINTS.COURSES.BY_ID(id));
   }
 
-  getCoursesByCategory(category: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/category/${category}`);
+  // Get courses by instructor
+  getCoursesByInstructor(instructorId: string): Observable<Course[]> {
+    return this.http.get<Course[]>(ApiConfig.ENDPOINTS.COURSES.BY_INSTRUCTOR(instructorId));
   }
 
-  enrollInCourse(courseId: number, userId: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/${courseId}/enroll`, { userId });
+  // Search courses
+  searchCourses(searchTerm: string): Observable<CourseListDto[]> {
+    const params = new HttpParams().set('search', searchTerm);
+    return this.http.get<CourseListDto[]>(ApiConfig.ENDPOINTS.COURSES.SEARCH, { params });
   }
 
-  getUserCourses(userId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/user/${userId}`);
+  // Create course
+  createCourse(course: CourseCreateDto): Observable<Course> {
+    return this.http.post<Course>(ApiConfig.ENDPOINTS.COURSES.BASE, course);
   }
 
-  createCourse(courseData: any): Observable<any> {
-    return this.http.post(this.apiUrl, courseData);
+  // Update course
+  updateCourse(id: string, course: CourseUpdateDto): Observable<Course> {
+    return this.http.put<Course>(ApiConfig.ENDPOINTS.COURSES.BY_ID(id), course);
   }
 
-  updateCourse(courseId: number, courseData: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${courseId}`, courseData);
+  // Delete course
+  deleteCourse(id: string): Observable<void> {
+    return this.http.delete<void>(ApiConfig.ENDPOINTS.COURSES.BY_ID(id));
   }
 
-  deleteCourse(courseId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${courseId}`);
+  // Get course statistics
+  getCourseStatistics(courseId: string): Observable<any> {
+    return this.http.get(ApiConfig.ENDPOINTS.COURSES.STATISTICS(courseId));
   }
-  
+
+  // Get course count
+  getCourseCount(): Observable<number> {
+    return this.http.get<number>(`${ApiConfig.ENDPOINTS.COURSES.BASE}/count`);
+  }
+
+  // Get popular courses
+  getPopularCourses(limit: number = 10): Observable<CourseListDto[]> {
+    const params = new HttpParams().set('limit', limit.toString());
+    return this.http.get<CourseListDto[]>(`${ApiConfig.ENDPOINTS.COURSES.BASE}/popular`, { params });
+  }
 }

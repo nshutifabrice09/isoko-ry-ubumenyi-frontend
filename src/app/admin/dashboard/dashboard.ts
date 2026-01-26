@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
-import { CourseService } from '../../services/course.service';
-import { EnrollmentServ
+import { User } from '../../services/user';
+import { Course } from '../../services/course';
+import { Enrollment } from '../../services/enrollment';
+
 
 @Component({
   selector: 'app-dashboard',
@@ -25,9 +26,9 @@ export class DashboardComponent implements OnInit {
   isLoading = true;
 
   constructor(
-    private userService: UserService,
-    private courseService: CourseService,
-    private enrollmentService: EnrollmentService
+    private userService: User,
+    private course: Course,
+    private enrollment: Enrollment
   ) {}
 
   ngOnInit() {
@@ -38,7 +39,7 @@ export class DashboardComponent implements OnInit {
     this.isLoading = true;
 
     // Load stats
-    this.userService.getAllUsers().subscribe({
+    this.user.getAllUsers().subscribe({
       next: (users) => {
         this.stats.totalUsers = users.length;
         this.stats.activeStudents = users.filter(u => u.role === 'STUDENT').length;
