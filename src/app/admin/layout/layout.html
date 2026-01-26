@@ -1,1 +1,60 @@
-<p>layout works!</p>
+<div class="admin-layout">
+  <!-- Sidebar -->
+  <aside [class]="'sidebar ' + (isSidebarOpen ? 'open' : 'closed')">
+    <div class="sidebar-header">
+      <div class="logo">
+        <div class="logo-icon">
+          <i class="bi bi-book"></i>
+        </div>
+        <span *ngIf="isSidebarOpen" class="logo-text">Isoko Admin</span>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a *ngFor="let item of menuItems" 
+         [routerLink]="item.route"
+         routerLinkActive="active"
+         class="nav-item">
+        <i [class]="'bi bi-' + item.icon"></i>
+        <span *ngIf="isSidebarOpen">{{item.label}}</span>
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <button (click)="logout()" class="logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        <span *ngIf="isSidebarOpen">Logout</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Header -->
+    <header class="top-header">
+      <button (click)="toggleSidebar()" class="sidebar-toggle">
+        <i class="bi bi-list"></i>
+      </button>
+
+      <div class="header-right">
+        <button class="notification-btn">
+          <i class="bi bi-bell"></i>
+          <span class="badge">5</span>
+        </button>
+
+        <div class="user-profile">
+          <img src="https://via.placeholder.com/40" alt="User" class="avatar">
+          <div class="user-info">
+            <span class="user-name">{{currentUser?.name || 'Admin'}}</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

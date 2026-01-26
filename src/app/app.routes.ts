@@ -10,7 +10,6 @@ import { PrivacyPolicy } from '../pages/privacy-policy/privacy-policy';
 import { TermsOfService } from '../pages/terms-of-service/terms-of-service';
 import { Pricing } from '../pages/pricing/pricing';
 
-
 export const routes: Routes = [
     { path: '', component: IsokoLandingPageComponent},
     { path: 'register', component: Register},
@@ -23,4 +22,7 @@ export const routes: Routes = [
     { path: 'terms-of-service', component: TermsOfService},
     { path: 'pricing', component: Pricing},
     { path: '**', redirectTo: ''}
+
+    
 ];
+
