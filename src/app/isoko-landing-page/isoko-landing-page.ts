@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, HostListener, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
@@ -13,20 +13,21 @@ export class IsokoLandingPageComponent implements OnInit, OnDestroy {
   isMenuOpen = false;
   scrolled = false;
   currentImageIndex = 0;
-  private imageRotationInterval: any; // ✅ Store interval ID
+  private imageRotationInterval: any;
+
+  constructor(private cdr: ChangeDetectorRef) {} // ✅ Inject ChangeDetectorRef
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.scrolled = window.scrollY > 50;
   }
 
-  // Hero images - African students
   heroImages = [
-    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop', // African children in classroom
-    'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop', // African students studying together
-    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop', // African kids with laptops
-    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=400&fit=crop', // Students collaborating
-    'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop'  // Students outdoor learning
+    'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=400&fit=crop',
+    'https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&h=400&fit=crop'
   ];
 
   stats = [
@@ -64,14 +65,13 @@ export class IsokoLandingPageComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit() {
-    // Auto-rotate images every 5 seconds - SAVE the interval ID
     this.imageRotationInterval = setInterval(() => {
       this.nextImage();
+      this.cdr.markForCheck(); // ✅ Manually trigger change detection
     }, 5000);
   }
 
   ngOnDestroy() {
-    // ✅ CRITICAL: Clear the interval when component is destroyed
     if (this.imageRotationInterval) {
       clearInterval(this.imageRotationInterval);
     }
