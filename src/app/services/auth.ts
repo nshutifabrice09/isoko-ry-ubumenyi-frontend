@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
+import { ApiConfig } from '../config/api.config';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Auth {
-  private apiUrl = 'http://localhost:8080/api/auth'; // Spring Boot backend
+export class AuthService {
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
 
@@ -28,13 +28,13 @@ export class Auth {
 
   // Register new user
   register(userData: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, userData);
+    return this.http.post(ApiConfig.ENDPOINTS.AUTH.REGISTER, userData);
   }
 
   // Login
   login(email: string, password: string): Observable<any> {
     return this.http
-      .post<any>(`${this.apiUrl}/login`, { email, password })
+      .post<any>(ApiConfig.ENDPOINTS.AUTH.LOGIN, { email, password })
       .pipe(
         tap((response) => {
           if (response && response.token && typeof window !== 'undefined') {
@@ -64,17 +64,44 @@ export class Auth {
     return user ? user.token : null;
   }
 
+  // Get current user role
+  getUserRole(): string | null {
+    const user = this.currentUserValue;
+    return user ? user.role : null;
+  }
+
+  // Check if user has specific role
+  hasRole(role: string): boolean {
+    const userRole = this.getUserRole();
+    return userRole === role;
+  }
+
+  // Check if user is admin
+  isAdmin(): boolean {
+    return this.hasRole('ADMIN');
+  }
+
+  // Check if user is instructor
+  isInstructor(): boolean {
+    return this.hasRole('INSTRUCTOR');
+  }
+
+  // Check if user is student
+  isStudent(): boolean {
+    return this.hasRole('STUDENT');
+  }
+
   // OAuth Login - Google
   loginWithGoogle(): void {
     if (typeof window !== 'undefined') {
-      window.location.href = `${this.apiUrl}/oauth2/authorize/google`;
+      window.location.href = `${ApiConfig.ENDPOINTS.AUTH.BASE}/oauth2/authorize/google`;
     }
   }
 
   // OAuth Login - Facebook
   loginWithFacebook(): void {
     if (typeof window !== 'undefined') {
-      window.location.href = `${this.apiUrl}/oauth2/authorize/facebook`;
+      window.location.href = `${ApiConfig.ENDPOINTS.AUTH.BASE}/oauth2/authorize/facebook`;
     }
   }
 
@@ -85,5 +112,35 @@ export class Auth {
       localStorage.setItem('currentUser', JSON.stringify(userData));
     }
     this.currentUserSubject.next(userData);
+  }
+
+  // Refresh token
+  refreshToken(): Observable<any> {
+    return this.http.post<any>(ApiConfig.ENDPOINTS.AUTH.REFRESH, {})
+      .pipe(
+        tap((response) => {
+          if (response && response.token && typeof window !== 'undefined') {
+            const currentUser = this.currentUserValue;
+            const updatedUser = { ...currentUser, token: response.token };
+            localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+            this.currentUserSubject.next(updatedUser);
+          }
+        })
+      );
+  }
+
+  // Get current user ID
+  getCurrentUserId(): string | null {
+    const user = this.currentUserValue;
+    return user ? user.userId || user.id : null;
+  }
+
+  // Update current user in storage
+  updateCurrentUser(userData: any): void {
+    if (typeof window !== 'undefined') {
+      const updatedUser = { ...this.currentUserValue, ...userData };
+      localStorage.setItem('currentUser', JSON.stringify(updatedUser));
+      this.currentUserSubject.next(updatedUser);
+    }
   }
 }

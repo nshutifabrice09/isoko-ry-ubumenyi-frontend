@@ -8,57 +8,55 @@ import { ApiConfig } from '../config/api.config';
   providedIn: 'root'
 })
 export class EnrollmentService {
-  private apiUrl = `${ApiConfig.apiUrl}/enrollments`;
-
   constructor(private http: HttpClient) {}
 
-  // 1. Get all enrollments (Admin only)
+  // Get all enrollments
   getAllEnrollments(): Observable<Enrollment[]> {
-    return this.http.get<Enrollment[]>(this.apiUrl);
+    return this.http.get<Enrollment[]>(ApiConfig.ENDPOINTS.ENROLLMENTS.BASE);
   }
 
-  // 2. Get specific enrollment by ID
+  // Get enrollment by ID
   getEnrollmentById(id: string): Observable<Enrollment> {
-    return this.http.get<Enrollment>(`${this.apiUrl}/${id}`);
+    return this.http.get<Enrollment>(ApiConfig.ENDPOINTS.ENROLLMENTS.BY_ID(id));
   }
 
-  // 3. Get all enrollments for a specific user (their enrolled courses)
+  // Get enrollments by user
   getEnrollmentsByUser(userId: string): Observable<Enrollment[]> {
-    return this.http.get<Enrollment[]>(`${this.apiUrl}/user/${userId}`);
+    return this.http.get<Enrollment[]>(ApiConfig.ENDPOINTS.ENROLLMENTS.BY_USER(userId));
   }
 
-  // 4. Get all students enrolled in a specific course
+  // Get enrollments by course
   getEnrollmentsByCourse(courseId: string): Observable<Enrollment[]> {
-    return this.http.get<Enrollment[]>(`${this.apiUrl}/course/${courseId}`);
+    return this.http.get<Enrollment[]>(ApiConfig.ENDPOINTS.ENROLLMENTS.BY_COURSE(courseId));
   }
 
-  // 5. Check if a user is already enrolled in a course
+  // Check if user is enrolled in course
   isUserEnrolled(userId: string, courseId: string): Observable<boolean> {
-    return this.http.get<boolean>(`${this.apiUrl}/check/${userId}/${courseId}`);
+    return this.http.get<boolean>(ApiConfig.ENDPOINTS.ENROLLMENTS.CHECK(userId, courseId));
   }
 
-  // 6. Enroll a user in a course
+  // Enroll user in course
   enrollUser(enrollment: EnrollmentCreateDto): Observable<Enrollment> {
-    return this.http.post<Enrollment>(this.apiUrl, enrollment);
+    return this.http.post<Enrollment>(ApiConfig.ENDPOINTS.ENROLLMENTS.BASE, enrollment);
   }
 
-  // 7. Update enrollment progress (when student completes lessons)
+  // Update enrollment progress
   updateEnrollmentProgress(id: string, progress: number): Observable<Enrollment> {
-    return this.http.put<Enrollment>(`${this.apiUrl}/${id}/progress`, { progress });
+    return this.http.put<Enrollment>(ApiConfig.ENDPOINTS.ENROLLMENTS.PROGRESS(id), { progress });
   }
 
-  // 8. Update entire enrollment
+  // Update enrollment
   updateEnrollment(id: string, enrollment: EnrollmentUpdateDto): Observable<Enrollment> {
-    return this.http.put<Enrollment>(`${this.apiUrl}/${id}`, enrollment);
+    return this.http.put<Enrollment>(ApiConfig.ENDPOINTS.ENROLLMENTS.BY_ID(id), enrollment);
   }
 
-  // 9. Unenroll a user from a course (delete enrollment)
+  // Unenroll user from course
   unenrollUser(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(ApiConfig.ENDPOINTS.ENROLLMENTS.BY_ID(id));
   }
 
-  // 10. Get current logged-in user's enrollments
+  // Get current user's enrollments
   getCurrentUserEnrollments(): Observable<Enrollment[]> {
-    return this.http.get<Enrollment[]>(`${this.apiUrl}/my-courses`);
+    return this.http.get<Enrollment[]>(ApiConfig.ENDPOINTS.ENROLLMENTS.MY_COURSES);
   }
 }
