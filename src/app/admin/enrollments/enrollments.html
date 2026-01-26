@@ -1,0 +1,189 @@
+<p>enrollments works!</p>
+<div class="enrollments-page">
+  <div class="page-header">
+    <div>
+      <h1>Enrollments Management</h1>
+      <p class="text-muted">Manage student course enrollments and track progress</p>
+    </div>
+    <button (click)="openAddModal()" class="btn-primary">
+      <i class="bi bi-plus-circle me-2"></i>
+      Enroll Student
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters-section">
+    <div class="search-box">
+      <i class="bi bi-search"></i>
+      <input 
+        type="text" 
+        [(ngModel)]="searchTerm"
+        (ngModelChange)="filterEnrollments()"
+        placeholder="Search by student or course name...">
+    </div>
+
+    <div class="filter-group">
+      <select [(ngModel)]="filterCourse" (ngModelChange)="filterEnrollments()" class="filter-select">
+        <option value="">All Courses</option>
+        <option *ngFor="let course of courses" [value]="course.id">
+          {{course.title}}
+        </option>
+      </select>
+
+      <select [(ngModel)]="filterUser" (ngModelChange)="filterEnrollments()" class="filter-select">
+        <option value="">All Students</option>
+        <option *ngFor="let user of users" [value]="user.id">
+          {{user.fullName}}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Statistics -->
+  <div class="stats-row">
+    <div class="stat-item">
+      <span class="stat-value">{{enrollments.length}}</span>
+      <span class="stat-label">Total Enrollments</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">{{(enrollments | filter: 'completed').length}}</span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-value">
+        {{enrollments.length > 0 ? (enrollments.reduce((sum, e) => sum + e.progress, 0) / enrollments.length).toFixed(1) : 0}}%
+      </span>
+      <span class="stat-label">Avg Progress</span>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Loading enrollments...</p>
+  </div>
+
+  <!-- Enrollments Table -->
+  <div *ngIf="!isLoading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Course</th>
+          <th>Progress</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let enrollment of filteredEnrollments">
+          <td>
+            <div class="user-cell">
+              <div class="avatar">{{enrollment.user?.fullName?.charAt(0) || 'S'}}</div>
+              <div>
+                <div class="user-name">{{enrollment.user?.fullName}}</div>
+                <div class="user-email">{{enrollment.user?.email}}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="course-name">{{enrollment.course?.title}}</div>
+          </td>
+          <td>
+            <div class="progress-container">
+              <div class="progress-bar-bg">
+                <div class="progress-bar-fill" 
+                     [style.width.%]="enrollment.progress"
+                     [ngClass]="'progress-' + getProgressColor(enrollment.progress)"></div>
+              </div>
+              <span class="progress-text">{{enrollment.progress}}%</span>
+            </div>
+          </td>
+          <td>
+            <span [class]="'status-badge status-' + (enrollment.progress === 100 ? 'completed' : enrollment.progress > 0 ? 'in-progress' : 'not-started')">
+              {{enrollment.progress === 100 ? 'Completed' : enrollment.progress > 0 ? 'In Progress' : 'Not Started'}}
+            </span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button (click)="updateProgress(enrollment, enrollment.progress + 10)" 
+                      class="btn-icon" 
+                      title="Increase Progress"
+                      [disabled]="enrollment.progress >= 100">
+                <i class="bi bi-arrow-up-circle"></i>
+              </button>
+              <button (click)="updateProgress(enrollment, enrollment.progress - 10)" 
+                      class="btn-icon" 
+                      title="Decrease Progress"
+                      [disabled]="enrollment.progress <= 0">
+                <i class="bi bi-arrow-down-circle"></i>
+              </button>
+              <button (click)="deleteEnrollment(enrollment)" class="btn-icon btn-delete" title="Unenroll">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredEnrollments.length === 0">
+          <td colspan="5" class="no-data">
+            <i class="bi bi-inbox"></i>
+            <p>No enrollments found</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Add Enrollment Modal -->
+  <div *ngIf="showAddModal" class="modal-overlay" (click)="closeAddModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Enroll Student in Course</h2>
+        <button (click)="closeAddModal()" class="close-btn">
+          <i class="bi bi-x"></i>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- General Error -->
+        <div *ngIf="errors.general" class="alert alert-error">
+          <i class="bi bi-exclamation-circle me-2"></i>
+          {{errors.general}}
+        </div>
+
+        <!-- Select Student -->
+        <div class="form-group">
+          <label>Select Student *</label>
+          <select [(ngModel)]="newEnrollment.userId" class="form-control" [class.error]="errors.userId">
+            <option value="">Choose a student...</option>
+            <option *ngFor="let user of users" [value]="user.id">
+              {{user.fullName}} ({{user.email}})
+            </option>
+          </select>
+          <span *ngIf="errors.userId" class="error-text">{{errors.userId}}</span>
+        </div>
+
+        <!-- Select Course -->
+        <div class="form-group">
+          <label>Select Course *</label>
+          <select [(ngModel)]="newEnrollment.courseId" class="form-control" [class.error]="errors.courseId">
+            <option value="">Choose a course...</option>
+            <option *ngFor="let course of courses" [value]="course.id">
+              {{course.title}}
+            </option>
+          </select>
+          <span *ngIf="errors.courseId" class="error-text">{{errors.courseId}}</span>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button (click)="closeAddModal()" class="btn-secondary">Cancel</button>
+        <button (click)="addEnrollment()" class="btn-primary" [disabled]="isLoading">
+          <span *ngIf="!isLoading">Enroll Student</span>
+          <span *ngIf="isLoading">Enrolling...</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
