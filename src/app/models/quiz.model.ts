@@ -16,3 +16,24 @@ export interface QuizCreateDto {
 export interface QuizUpdateDto {
   title?: string;
 }
+
+export interface QuizSubmissionDto {
+  id: string;
+  answers: {
+    questionId: string;
+    selectedOptionId: string;
+  }[];
+}
+
+export interface QuizResultDto {
+  id: string;
+  totalQuestions: number;
+  correctAnswers: number;
+  scorePercentage: number;
+  results: {
+    questionId: string;
+    correct: boolean;
+    correctOptionId: string;
+    selectedOptionId: string;
+  }[];
+}

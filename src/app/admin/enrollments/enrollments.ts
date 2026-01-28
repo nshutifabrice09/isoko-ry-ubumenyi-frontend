@@ -1,10 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { EnrollmentService } from '../../services/enrollment.service';
-import { User } from '../../services/user';
-import { Course } from '../../services/course';
+import { CourseListDto } from '../../models/course.model';
+import { EnrollmentService } from '../../services/enrollment';
+import { UserService } from '../../services/user';
+import { CourseService } from '../../services/course';
+
 import { Enrollment } from '../../models/enrollment.model';
+import { User } from '../../models/user.model';
+import { Course } from '../../models/course.model';
 
 @Component({
   selector: 'app-enrollments',
@@ -14,22 +18,25 @@ import { Enrollment } from '../../models/enrollment.model';
   styleUrls: ['./enrollments.css']
 })
 export class EnrollmentsComponent implements OnInit {
+
   enrollments: Enrollment[] = [];
   filteredEnrollments: Enrollment[] = [];
-  users: any[] = [];
-  courses: any[] = [];
-  
+
+  users: User[] = [];
+  courses: CourseListDto[] = [];
+
   isLoading = false;
   showAddModal = false;
+
   searchTerm = '';
   filterCourse = '';
   filterUser = '';
-  
-  newEnrollment = {
+
+  newEnrollment: { userId: string; courseId: string } = {
     userId: '',
     courseId: ''
   };
-  
+
   errors = {
     userId: '',
     courseId: '',
@@ -38,69 +45,77 @@ export class EnrollmentsComponent implements OnInit {
 
   constructor(
     private enrollmentService: EnrollmentService,
-    private userService: User,
-    private courseService: Course
+    private userService: UserService,
+    private courseService: CourseService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.loadEnrollments();
     this.loadUsers();
-  this.loadCourses();
+    this.loadCourses();
   }
 
-  loadEnrollments() {
+  loadEnrollments(): void {
     this.isLoading = true;
+
     this.enrollmentService.getAllEnrollments().subscribe({
-      next: (data) => {
+      next: (data: Enrollment[]) => {
         this.enrollments = data;
         this.filteredEnrollments = data;
         this.isLoading = false;
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error loading enrollments:', err);
         this.isLoading = false;
       }
     });
   }
 
-  loadUsers() {
+  loadUsers(): void {
     this.userService.getAllUsers().subscribe({
-      next: (data) => {
-        this.users = data.filter(u => u.role === 'STUDENT');
+      next: (data: User[]) => {
+        this.users = data.filter((u: User) => u.role === 'STUDENT');
       },
-      error: (err) => console.error('Error loading users:', err)
+      error: (err: any) => {
+        console.error('Error loading users:', err);
+      }
     });
   }
 
-  loadCourses() {
+  loadCourses(): void {
     this.courseService.getAllCourses().subscribe({
-      next: (data) => {
+      next: (data: CourseListDto[]) => {
         this.courses = data;
-      },
-      error: (err) => console.error('Error loading courses:', err)
+    },
+      error: (err: any) => {
+        console.error('Error loading courses:', err);
+      }
     });
   }
 
-  filterEnrollments() {
-    this.filteredEnrollments = this.enrollments.filter(enrollment => {
-      const matchesSearch = 
+  filterEnrollments(): void {
+    this.filteredEnrollments = this.enrollments.filter((enrollment: Enrollment) => {
+      const matchesSearch =
         enrollment.user?.fullName?.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
         enrollment.course?.title?.toLowerCase().includes(this.searchTerm.toLowerCase());
-      
-      const matchesCourse = !this.filterCourse || enrollment.course?.id === this.filterCourse;
-      const matchesUser = !this.filterUser || enrollment.user?.id === this.filterUser;
-      
+
+      const matchesCourse =
+        !this.filterCourse || enrollment.course?.id === this.filterCourse;
+
+      const matchesUser =
+        !this.filterUser || enrollment.user?.id === this.filterUser;
+
       return matchesSearch && matchesCourse && matchesUser;
     });
   }
 
-  openAddModal() {
+  openAddModal(): void {
     this.showAddModal = true;
     this.newEnrollment = { userId: '', courseId: '' };
     this.errors = { userId: '', courseId: '', general: '' };
   }
 
-  closeAddModal() {
+  closeAddModal(): void {
     this.showAddModal = false;
   }
 
@@ -121,56 +136,65 @@ export class EnrollmentsComponent implements OnInit {
     return isValid;
   }
 
-  addEnrollment() {
+  addEnrollment(): void {
     if (!this.validateForm()) return;
 
     this.isLoading = true;
+
     this.enrollmentService.enrollUser(this.newEnrollment).subscribe({
-      next: (enrollment) => {
+      next: (enrollment: Enrollment) => {
         this.enrollments.unshift(enrollment);
         this.filterEnrollments();
         this.closeAddModal();
         this.isLoading = false;
         alert('Student enrolled successfully!');
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error enrolling student:', err);
-        this.errors.general = err.error?.message || 'Failed to enroll student';
+        this.errors.general = err?.error?.message || 'Failed to enroll student';
         this.isLoading = false;
       }
     });
   }
 
-  updateProgress(enrollment: Enrollment, newProgress: number) {
+  updateProgress(enrollment: Enrollment, newProgress: number): void {
     if (newProgress < 0 || newProgress > 100) {
       alert('Progress must be between 0 and 100');
       return;
     }
 
-    this.enrollmentService.updateEnrollmentProgress(enrollment.id, newProgress).subscribe({
-      next: (updated) => {
-        enrollment.progress = updated.progress;
-        alert('Progress updated successfully!');
-      },
-      error: (err) => {
-        console.error('Error updating progress:', err);
-        alert('Failed to update progress');
-      }
-    });
+    this.enrollmentService
+      .updateEnrollmentProgress(enrollment.id, newProgress)
+      .subscribe({
+        next: (updated: Enrollment) => {
+          enrollment.progress = updated.progress;
+          alert('Progress updated successfully!');
+        },
+        error: (err: any) => {
+          console.error('Error updating progress:', err);
+          alert('Failed to update progress');
+        }
+      });
   }
 
-  deleteEnrollment(enrollment: Enrollment) {
-    if (!confirm(`Are you sure you want to unenroll ${enrollment.user?.fullName} from ${enrollment.course?.title}?`)) {
+  deleteEnrollment(enrollment: Enrollment): void {
+    if (
+      !confirm(
+        `Are you sure you want to unenroll ${enrollment.user?.fullName} from ${enrollment.course?.title}?`
+      )
+    ) {
       return;
     }
 
     this.enrollmentService.unenrollUser(enrollment.id).subscribe({
       next: () => {
-        this.enrollments = this.enrollments.filter(e => e.id !== enrollment.id);
+        this.enrollments = this.enrollments.filter(
+          (e: Enrollment) => e.id !== enrollment.id
+        );
         this.filterEnrollments();
         alert('Student unenrolled successfully!');
       },
-      error: (err) => {
+      error: (err: any) => {
         console.error('Error unenrolling student:', err);
         alert('Failed to unenroll student');
       }

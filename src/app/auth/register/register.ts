@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../../services/auth';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'app-register',
@@ -13,7 +13,7 @@ import { Auth } from '../../services/auth';
 })
 export class Register {
   constructor(
-    private auth: Auth,
+    private auth: AuthService,
     private router: Router
   ) {}
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Auth } from '../../services/auth';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +13,7 @@ import { Auth } from '../../services/auth';
 })
 export class Login {
   constructor(
-    private authService: Auth,
+    private authService: AuthService,
     private router: Router
   ) {}
 

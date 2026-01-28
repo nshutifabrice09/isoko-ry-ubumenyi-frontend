@@ -43,7 +43,7 @@ export class QuizService {
   // Submit quiz answers
   submitQuizAnswers(submission: QuizSubmissionDto): Observable<QuizResultDto> {
     return this.http.post<QuizResultDto>(
-      ApiConfig.ENDPOINTS.QUIZZES.SUBMIT(submission.quizId), 
+      ApiConfig.ENDPOINTS.QUIZZES.SUBMIT(submission.id), 
       { answers: submission.answers }
     );
   }
