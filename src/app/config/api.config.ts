@@ -6,10 +6,23 @@ export class ApiConfig {
   private static readonly PROD_API_URL = 'https://your-production-domain.com/api/v1';
 
   /**
+   * Check if code is running in browser (not server)
+   */
+  private static get isBrowser(): boolean {
+    return typeof window !== 'undefined';
+  }
+
+  /**
    * Get the appropriate API URL based on environment
-   * Automatically detects if running on localhost (dev) or production
+   * Handles both browser and server-side rendering
    */
   public static get apiUrl(): string {
+    // If running on server (SSR), always use dev URL
+    if (!this.isBrowser) {
+      return this.DEV_API_URL;
+    }
+
+    // Browser environment - check hostname
     const isLocalhost = window.location.hostname === 'localhost' || 
                         window.location.hostname === '127.0.0.1' ||
                         window.location.hostname === '';
@@ -20,104 +33,107 @@ export class ApiConfig {
   /**
    * Get full endpoint URL
    * @param endpoint - The endpoint path (e.g., 'users', 'courses')
-   * Note: Do NOT include leading slash or '/api/v1/' - this is handled automatically
    */
   public static getEndpoint(endpoint: string): string {
-    // Remove leading slash if present
     const cleanEndpoint = endpoint.startsWith('/') ? endpoint.substring(1) : endpoint;
     return `${this.apiUrl}/${cleanEndpoint}`;
   }
 
   // Specific API endpoints based on your backend structure
-  public static readonly ENDPOINTS = {
-    // Auth endpoints
-    AUTH: {
-      BASE: `${ApiConfig.apiUrl}/auth`,
-      LOGIN: `${ApiConfig.apiUrl}/auth/login`,
-      REGISTER: `${ApiConfig.apiUrl}/auth/register`,
-      REFRESH: `${ApiConfig.apiUrl}/auth/refresh`,
-      LOGOUT: `${ApiConfig.apiUrl}/auth/logout`
-    },
+  public static get ENDPOINTS() {
+    const baseUrl = this.apiUrl;
     
-    // User endpoints
-    USERS: {
-      BASE: `${ApiConfig.apiUrl}/users`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/users/${id}`,
-      BY_ROLE: (role: string) => `${ApiConfig.apiUrl}/users/role/${role}`,
-      PROFILE: `${ApiConfig.apiUrl}/users/profile`
-    },
-    
-    // Course endpoints
-    COURSES: {
-      BASE: `${ApiConfig.apiUrl}/courses`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/courses/${id}`,
-      BY_INSTRUCTOR: (instructorId: string) => `${ApiConfig.apiUrl}/courses/instructor/${instructorId}`,
-      SEARCH: `${ApiConfig.apiUrl}/courses/search`,
-      STATISTICS: (courseId: string) => `${ApiConfig.apiUrl}/courses/${courseId}/statistics`
-    },
-    
-    // Lesson endpoints
-    LESSONS: {
-      BASE: `${ApiConfig.apiUrl}/lessons`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/lessons/${id}`,
-      BY_COURSE: (courseId: string) => `${ApiConfig.apiUrl}/lessons/course/${courseId}`,
-      UPLOAD: (lessonId: string) => `${ApiConfig.apiUrl}/lessons/${lessonId}/upload`
-    },
-    
-    // Enrollment endpoints
-    ENROLLMENTS: {
-      BASE: `${ApiConfig.apiUrl}/enrollments`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/enrollments/${id}`,
-      BY_USER: (userId: string) => `${ApiConfig.apiUrl}/enrollments/user/${userId}`,
-      BY_COURSE: (courseId: string) => `${ApiConfig.apiUrl}/enrollments/course/${courseId}`,
-      CHECK: (userId: string, courseId: string) => `${ApiConfig.apiUrl}/enrollments/check/${userId}/${courseId}`,
-      MY_COURSES: `${ApiConfig.apiUrl}/enrollments/my-courses`,
-      PROGRESS: (id: string) => `${ApiConfig.apiUrl}/enrollments/${id}/progress`
-    },
-    
-    // Assignment endpoints
-    ASSIGNMENTS: {
-      BASE: `${ApiConfig.apiUrl}/assignments`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/assignments/${id}`,
-      BY_COURSE: (courseId: string) => `${ApiConfig.apiUrl}/assignments/course/${courseId}`,
-      UPCOMING: (userId: string) => `${ApiConfig.apiUrl}/assignments/upcoming/${userId}`,
-      OVERDUE: (userId: string) => `${ApiConfig.apiUrl}/assignments/overdue/${userId}`
-    },
-    
-    // Submission endpoints
-    SUBMISSIONS: {
-      BASE: `${ApiConfig.apiUrl}/submissions`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/submissions/${id}`,
-      BY_ASSIGNMENT: (assignmentId: string) => `${ApiConfig.apiUrl}/submissions/assignment/${assignmentId}`,
-      BY_STUDENT: (studentId: string) => `${ApiConfig.apiUrl}/submissions/student/${studentId}`,
-      STUDENT_ASSIGNMENT: (studentId: string, assignmentId: string) => 
-        `${ApiConfig.apiUrl}/submissions/student/${studentId}/assignment/${assignmentId}`,
-      UPLOAD: `${ApiConfig.apiUrl}/submissions/upload`,
-      GRADE: (id: string) => `${ApiConfig.apiUrl}/submissions/${id}/grade`,
-      UNGRADED: (instructorId: string) => `${ApiConfig.apiUrl}/submissions/ungraded/instructor/${instructorId}`
-    },
-    
-    // Quiz endpoints
-    QUIZZES: {
-      BASE: `${ApiConfig.apiUrl}/quizzes`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/quizzes/${id}`,
-      BY_COURSE: (courseId: string) => `${ApiConfig.apiUrl}/quizzes/course/${courseId}`,
-      SUBMIT: (quizId: string) => `${ApiConfig.apiUrl}/quizzes/${quizId}/submit`
-    },
-    
-    // Question endpoints
-    QUESTIONS: {
-      BASE: `${ApiConfig.apiUrl}/questions`,
-      BY_ID: (id: string) => `${ApiConfig.apiUrl}/questions/${id}`,
-      BY_QUIZ: (quizId: string) => `${ApiConfig.apiUrl}/questions/quiz/${quizId}`,
-      BULK: `${ApiConfig.apiUrl}/questions/bulk`
-    }
-  };
+    return {
+      // Auth endpoints
+      AUTH: {
+        BASE: `${baseUrl}/auth`,
+        LOGIN: `${baseUrl}/auth/login`,
+        REGISTER: `${baseUrl}/auth/register`,
+        REFRESH: `${baseUrl}/auth/refresh`,
+        LOGOUT: `${baseUrl}/auth/logout`
+      },
+      
+      // User endpoints
+      USERS: {
+        BASE: `${baseUrl}/users`,
+        BY_ID: (id: string) => `${baseUrl}/users/${id}`,
+        BY_ROLE: (role: string) => `${baseUrl}/users/role/${role}`,
+        PROFILE: `${baseUrl}/users/profile`
+      },
+      
+      // Course endpoints
+      COURSES: {
+        BASE: `${baseUrl}/courses`,
+        BY_ID: (id: string) => `${baseUrl}/courses/${id}`,
+        BY_INSTRUCTOR: (instructorId: string) => `${baseUrl}/courses/instructor/${instructorId}`,
+        SEARCH: `${baseUrl}/courses/search`,
+        STATISTICS: (courseId: string) => `${baseUrl}/courses/${courseId}/statistics`
+      },
+      
+      // Lesson endpoints
+      LESSONS: {
+        BASE: `${baseUrl}/lessons`,
+        BY_ID: (id: string) => `${baseUrl}/lessons/${id}`,
+        BY_COURSE: (courseId: string) => `${baseUrl}/lessons/course/${courseId}`,
+        UPLOAD: (lessonId: string) => `${baseUrl}/lessons/${lessonId}/upload`
+      },
+      
+      // Enrollment endpoints
+      ENROLLMENTS: {
+        BASE: `${baseUrl}/enrollments`,
+        BY_ID: (id: string) => `${baseUrl}/enrollments/${id}`,
+        BY_USER: (userId: string) => `${baseUrl}/enrollments/user/${userId}`,
+        BY_COURSE: (courseId: string) => `${baseUrl}/enrollments/course/${courseId}`,
+        CHECK: (userId: string, courseId: string) => `${baseUrl}/enrollments/check/${userId}/${courseId}`,
+        MY_COURSES: `${baseUrl}/enrollments/my-courses`,
+        PROGRESS: (id: string) => `${baseUrl}/enrollments/${id}/progress`
+      },
+      
+      // Assignment endpoints
+      ASSIGNMENTS: {
+        BASE: `${baseUrl}/assignments`,
+        BY_ID: (id: string) => `${baseUrl}/assignments/${id}`,
+        BY_COURSE: (courseId: string) => `${baseUrl}/assignments/course/${courseId}`,
+        UPCOMING: (userId: string) => `${baseUrl}/assignments/upcoming/${userId}`,
+        OVERDUE: (userId: string) => `${baseUrl}/assignments/overdue/${userId}`
+      },
+      
+      // Submission endpoints
+      SUBMISSIONS: {
+        BASE: `${baseUrl}/submissions`,
+        BY_ID: (id: string) => `${baseUrl}/submissions/${id}`,
+        BY_ASSIGNMENT: (assignmentId: string) => `${baseUrl}/submissions/assignment/${assignmentId}`,
+        BY_STUDENT: (studentId: string) => `${baseUrl}/submissions/student/${studentId}`,
+        STUDENT_ASSIGNMENT: (studentId: string, assignmentId: string) => 
+          `${baseUrl}/submissions/student/${studentId}/assignment/${assignmentId}`,
+        UPLOAD: `${baseUrl}/submissions/upload`,
+        GRADE: (id: string) => `${baseUrl}/submissions/${id}/grade`,
+        UNGRADED: (instructorId: string) => `${baseUrl}/submissions/ungraded/instructor/${instructorId}`
+      },
+      
+      // Quiz endpoints
+      QUIZZES: {
+        BASE: `${baseUrl}/quizzes`,
+        BY_ID: (id: string) => `${baseUrl}/quizzes/${id}`,
+        BY_COURSE: (courseId: string) => `${baseUrl}/quizzes/course/${courseId}`,
+        SUBMIT: (quizId: string) => `${baseUrl}/quizzes/${quizId}/submit`
+      },
+      
+      // Question endpoints
+      QUESTIONS: {
+        BASE: `${baseUrl}/questions`,
+        BY_ID: (id: string) => `${baseUrl}/questions/${id}`,
+        BY_QUIZ: (quizId: string) => `${baseUrl}/questions/quiz/${quizId}`,
+        BULK: `${baseUrl}/questions/bulk`
+      }
+    };
+  }
 
   /**
    * Check if app is running in production
    */
   public static get isProduction(): boolean {
+    if (!this.isBrowser) return false;
     return window.location.hostname !== 'localhost' && 
            window.location.hostname !== '127.0.0.1';
   }
