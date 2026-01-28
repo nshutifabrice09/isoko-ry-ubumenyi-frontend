@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterOutlet, Router } from '@angular/router';
-import { Auth } from '../../services/auth';
+import { AuthService } from '../../services';
 
 @Component({
   selector: 'app-admin-layout',
@@ -26,7 +26,7 @@ export class AdminLayoutComponent implements OnInit {
   ];
 
   constructor(
-    private Auth: Auth,
+    private Auth: AuthService,
     private router: Router
   ) {}
 
