@@ -26,12 +26,12 @@ export class AdminLayoutComponent implements OnInit {
   ];
 
   constructor(
-    private Auth: AuthService,
+    private authService: AuthService,
     private router: Router
   ) {}
 
   ngOnInit() {
-    this.currentUser = this.Auth.currentUserValue;
+    this.currentUser = this.authService.currentUserValue;
     
     // Check if user is admin
     if (!this.currentUser || this.currentUser.role !== 'ADMIN') {
@@ -44,7 +44,7 @@ export class AdminLayoutComponent implements OnInit {
   }
 
   logout() {
-    this.Auth.logout();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

@@ -40,21 +40,13 @@
   </div>
 
   <!-- Statistics -->
-  <div class="stats-row">
-    <div class="stat-item">
-      <span class="stat-value">{{enrollments.length}}</span>
-      <span class="stat-label">Total Enrollments</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">{{(enrollments | filter: 'completed').length}}</span>
-      <span class="stat-label">Completed</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-value">
-        {{enrollments.length > 0 ? (enrollments.reduce((sum, e) => sum + e.progress, 0) / enrollments.length).toFixed(1) : 0}}%
-      </span>
-      <span class="stat-label">Avg Progress</span>
-    </div>
+  <div class="stat-item">
+    <span class="stat-value">{{completedEnrollmentsCount}}</span>
+    <span class="stat-label">Completed</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-value">{{averageProgress}}%</span>
+    <span class="stat-label">Avg Progress</span>
   </div>
 
   <!-- Loading State -->
@@ -79,15 +71,15 @@
         <tr *ngFor="let enrollment of filteredEnrollments">
           <td>
             <div class="user-cell">
-              <div class="avatar">{{enrollment.user?.fullName?.charAt(0) || 'S'}}</div>
-              <div>
-                <div class="user-name">{{enrollment.user?.fullName}}</div>
-                <div class="user-email">{{enrollment.user?.email}}</div>
-              </div>
+              <div class="avatar">{{enrollment.user.fullName.charAt(0) || 'S'}}</div>
+                <div>
+                  <div class="user-name">{{enrollment.user.fullName}}</div>
+                  <div class="user-email">{{enrollment.user.email}}</div>
+                </div>
             </div>
           </td>
           <td>
-            <div class="course-name">{{enrollment.course?.title}}</div>
+            <div class="course-name">{{enrollment.course.title}}</div>
           </td>
           <td>
             <div class="progress-container">

@@ -49,6 +49,17 @@ export class EnrollmentsComponent implements OnInit {
     private courseService: CourseService
   ) {}
 
+  get averageProgress(): string {
+    if (this.enrollments.length === 0) return '0';
+    const total = this.enrollments.reduce((sum, e) => sum + e.progress, 0);
+    return (total / this.enrollments.length).toFixed(1);
+  }
+
+  get completedEnrollmentsCount(): number {
+    return this.enrollments.filter(e => e.progress === 100).length;
+  }
+
+
   ngOnInit(): void {
     this.loadEnrollments();
     this.loadUsers();
